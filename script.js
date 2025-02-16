@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (username === 'xingxing' && password === 'stars') {
             console.log('登录成功');
             loginContainer.style.display = 'none';
+            gameContainer.style.display = 'block';
             gameContainer.classList.remove('hidden');
             
             new PuzzleGame(
@@ -225,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    gameContainer.style.display = 'none';
     gameContainer.classList.add('hidden');
     loginContainer.style.display = 'flex';
 });
