@@ -100,7 +100,9 @@ body {
     height: 100%;
     border: 1px solid #fce4ec;
     cursor: pointer;
+    background-size: cover;
     transition: transform 0.2s;
+    background-repeat: no-repeat;
 }
 
 .puzzle-piece:hover {

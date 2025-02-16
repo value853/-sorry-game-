@@ -4,8 +4,34 @@ class PuzzleGame {
         this.message = message;
         this.pieces = [];
         this.currentLevel = 12; // 默认难度
-        this.init();
-        this.setupControls();
+        this.loadImage().then(() => {
+            this.init();
+            this.setupControls();
+        });
+    }
+
+    loadImage() {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                this.imageWidth = img.width;
+                this.imageHeight = img.height;
+                // 计算合适的显示尺寸，保持比例
+                const containerWidth = 400;
+                const ratio = this.imageWidth / this.imageHeight;
+                this.displayWidth = containerWidth;
+                this.displayHeight = containerWidth / ratio;
+                
+                // 更新容器尺寸
+                const container = document.getElementById('puzzle-container');
+                container.style.width = `${this.displayWidth}px`;
+                container.style.height = `${this.displayHeight}px`;
+                
+                resolve();
+            };
+            img.onerror = reject;
+            img.src = this.imageUrl;
+        });
     }
 
     setupControls() {
@@ -83,12 +109,18 @@ class PuzzleGame {
         
         // 根据难度计算背景位置
         let cols = this.currentLevel === 9 ? 3 : 4;
-        let size = this.currentLevel === 16 ? 100 : (400 / cols);
-        const x = (piece.id % cols) * size;
-        const y = Math.floor(piece.id / cols) * size;
+        let rows = this.currentLevel === 16 ? 4 : 3;
+        
+        // 计算每个片段的大小
+        const pieceWidth = this.displayWidth / cols;
+        const pieceHeight = this.displayHeight / rows;
+        
+        // 计算背景位置
+        const x = (piece.id % cols) * pieceWidth;
+        const y = Math.floor(piece.id / cols) * pieceHeight;
         
         element.style.backgroundImage = `url(${this.imageUrl})`;
-        element.style.backgroundSize = `${cols * 100}% ${this.currentLevel === 16 ? '400%' : '300%'}`;
+        element.style.backgroundSize = `${this.displayWidth}px ${this.displayHeight}px`;
         element.style.backgroundPosition = `-${x}px -${y}px`;
         
         return element;
@@ -175,6 +207,6 @@ class PuzzleGame {
 
 // 使用示例
 const game = new PuzzleGame(
-    'image2.jpeg',
+    'image2.jpeg',  // 直接使用文件名
     '对不起，我知道我做错了。你的感受我都明白，我应该更细心、更体贴。原谅我好吗？我会努力改正，好好珍惜你。'
 ); 
