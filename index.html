@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>星星同学</title>
     <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="星星同学的拼图">
+    <meta property="og:description" content="来看看我想对你说的话">
+    <meta property="og:image" content="https://value853.github.io/-sorry-game-/image2.jpeg">
 </head>
 <body>
-    <div class="container">
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <h2>请登录</h2>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="用户名">
+                <input type="password" id="password" placeholder="密码">
+                <button id="login-btn">登录</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="game-container">
         <div class="header">
             <h1>星星同学</h1>
             <p class="subtitle">完成拼图，看看我想对你说的话</p>
@@ -34,5 +48,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 </body>
 </html> 

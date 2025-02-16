@@ -1,3 +1,28 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.getElementById('login-btn');
+    const loginContainer = document.getElementById('login-container');
+    const gameContainer = document.getElementById('game-container');
+
+    loginBtn.addEventListener('click', () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === '小不点' && password === 'stars') {
+            loginContainer.style.display = 'none';
+            gameContainer.classList.remove('hidden');
+        } else {
+            alert('用户名或密码错误');
+        }
+    });
+
+    // 添加回车键登录
+    document.getElementById('password').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            loginBtn.click();
+        }
+    });
+});
+
 class PuzzleGame {
     constructor(imageUrl, message) {
         this.imageUrl = imageUrl;
