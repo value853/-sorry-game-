@@ -226,10 +226,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // 隐藏登录界面
             loginContainer.style.display = 'none';
             // 显示游戏界面
-            gameContainer.style.display = 'block';
+            gameContainer.classList.remove('hidden');
             // 初始化游戏
             new PuzzleGame(
-                './image2.jpeg',
+                'https://value853.github.io/-sorry-game-/image2.jpeg',
                 '每当我抬头仰望夜空中闪烁的繁星，思绪总会不由自主地飘回到那个在甲秀楼的雨幕中与你相伴的时光。彼时，我们敞开心扉，谈起了儿时那些纯真而又斑斓的梦想。而后，我们携手漫步在贵阳的大街小巷，那四五个小时的时光，注定让我终身难忘。你是我生命旅程中邂逅的最具灵秀之气、最为美好的女生。我任由自己那发热的头脑支配了行为，可我却忽略了你的感受，我知道，我的所作所为深深地刺痛了你的心。我深知，再多的言语都无法弥补我给你带来的伤害，但我还是想真诚地向你道歉。我错了，真的错了。对不起，原谅我，好吗？'
             );
         } else {
@@ -249,6 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 初始状态设置
-    gameContainer.style.display = 'none';
+    gameContainer.classList.add('hidden');
     loginContainer.style.display = 'flex';
 }); 
