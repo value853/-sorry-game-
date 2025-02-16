@@ -205,7 +205,7 @@ class PuzzleGame {
     }
 }
 
-// 等待页面加载完成
+// 登录和游戏初始化逻辑
 document.addEventListener('DOMContentLoaded', () => {
     // 获取DOM元素
     const loginBtn = document.getElementById('login-btn');
