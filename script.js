@@ -3,7 +3,7 @@ class PuzzleGame {
         this.imageUrl = imageUrl;
         this.message = message;
         this.pieces = [];
-        this.currentLevel = 12; // 默认难度
+        this.currentLevel = 12;
         this.loadImage().then(() => {
             this.init();
             this.setupControls();
@@ -16,13 +16,11 @@ class PuzzleGame {
             img.onload = () => {
                 this.imageWidth = img.width;
                 this.imageHeight = img.height;
-                // 计算合适的显示尺寸，保持比例
                 const containerWidth = 400;
                 const ratio = this.imageWidth / this.imageHeight;
                 this.displayWidth = containerWidth;
                 this.displayHeight = containerWidth / ratio;
                 
-                // 更新容器尺寸
                 const container = document.getElementById('puzzle-container');
                 container.style.width = `${this.displayWidth}px`;
                 container.style.height = `${this.displayHeight}px`;
@@ -35,7 +33,6 @@ class PuzzleGame {
     }
 
     setupControls() {
-        // 难度选择
         const difficultyBtns = document.querySelectorAll('.difficulty-btn');
         difficultyBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -46,7 +43,6 @@ class PuzzleGame {
             });
         });
 
-        // 重新开始按钮
         document.getElementById('restart-btn').addEventListener('click', () => {
             this.resetGame();
         });
@@ -68,9 +64,9 @@ class PuzzleGame {
                 break;
             case 16:
                 container.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                container.style.height = '400px'; // 保持正方形
+                container.style.height = '400px';
                 break;
-            default: // 12块
+            default:
                 container.style.gridTemplateColumns = 'repeat(4, 1fr)';
                 container.style.height = '300px';
         }
@@ -79,15 +75,10 @@ class PuzzleGame {
     init() {
         const container = document.getElementById('puzzle-container');
         const pieces = this.createPieces();
-        
-        // 打乱拼图顺序
         this.pieces = this.shuffleArray(pieces);
-        
-        // 渲染拼图
         this.pieces.forEach((piece, index) => {
             container.appendChild(this.createPieceElement(piece, index));
         });
-
         this.addEventListeners();
     }
 
@@ -107,15 +98,12 @@ class PuzzleGame {
         element.className = 'puzzle-piece';
         element.dataset.id = piece.id;
         
-        // 根据难度计算背景位置
         let cols = this.currentLevel === 9 ? 3 : 4;
         let rows = this.currentLevel === 16 ? 4 : 3;
         
-        // 计算每个片段的大小
         const pieceWidth = this.displayWidth / cols;
         const pieceHeight = this.displayHeight / rows;
         
-        // 计算背景位置
         const x = (piece.id % cols) * pieceWidth;
         const y = Math.floor(piece.id / cols) * pieceHeight;
         
@@ -145,7 +133,6 @@ class PuzzleGame {
                     selectedPiece = piece;
                     piece.style.border = '2px solid #07c160';
                 } else {
-                    // 交换两个片段
                     const tempBackground = selectedPiece.style.backgroundPosition;
                     const tempId = selectedPiece.dataset.id;
                     
@@ -158,15 +145,12 @@ class PuzzleGame {
                     selectedPiece.style.border = '1px solid #ccc';
                     selectedPiece = null;
 
-                    // 检查是否完成
                     this.checkCompletion();
                 }
             });
         });
 
-        // 添加分享按钮事件
         document.getElementById('share-btn').addEventListener('click', () => {
-            // 使用原生分享API（这样在手机浏览器中也能分享）
             if (navigator.share) {
                 navigator.share({
                     title: '星星同学的拼图',
@@ -174,7 +158,6 @@ class PuzzleGame {
                     url: window.location.href
                 });
             } else {
-                // 复制链接到剪贴板
                 const dummy = document.createElement('input');
                 document.body.appendChild(dummy);
                 dummy.value = window.location.href;
@@ -207,14 +190,12 @@ class PuzzleGame {
 
 // 登录和游戏初始化逻辑
 document.addEventListener('DOMContentLoaded', () => {
-    // 获取DOM元素
     const loginBtn = document.getElementById('login-btn');
     const loginContainer = document.getElementById('login-container');
     const gameContainer = document.getElementById('game-container');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
 
-    // 处理登录
     function handleLogin() {
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
@@ -223,11 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (username === 'xingxing' && password === 'stars') {
             console.log('登录成功');
-            // 隐藏登录界面
             loginContainer.style.display = 'none';
-            // 显示游戏界面
             gameContainer.classList.remove('hidden');
-            // 初始化游戏
+            
             new PuzzleGame(
                 'https://value853.github.io/-sorry-game-/image2.jpeg',
                 '每当我抬头仰望夜空中闪烁的繁星，思绪总会不由自主地飘回到那个在甲秀楼的雨幕中与你相伴的时光。彼时，我们敞开心扉，谈起了儿时那些纯真而又斑斓的梦想。而后，我们携手漫步在贵阳的大街小巷，那四五个小时的时光，注定让我终身难忘。你是我生命旅程中邂逅的最具灵秀之气、最为美好的女生。我任由自己那发热的头脑支配了行为，可我却忽略了你的感受，我知道，我的所作所为深深地刺痛了你的心。我深知，再多的言语都无法弥补我给你带来的伤害，但我还是想真诚地向你道歉。我错了，真的错了。对不起，原谅我，好吗？'
@@ -238,17 +217,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 绑定登录按钮点击事件
     loginBtn.addEventListener('click', handleLogin);
 
-    // 绑定回车键登录
     passwordInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             handleLogin();
         }
     });
 
-    // 初始状态设置
     gameContainer.classList.add('hidden');
     loginContainer.style.display = 'flex';
-}); 
+});
