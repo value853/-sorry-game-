@@ -163,12 +163,18 @@ class PuzzleGame {
         if (isComplete) {
             document.getElementById('success-message').classList.remove('hidden');
             document.getElementById('custom-message').textContent = this.message;
+            this.playCompletionAnimation();
         }
+    }
+
+    playCompletionAnimation() {
+        const card = document.querySelector('.card');
+        card.style.animation = 'popIn 0.5s ease-out';
     }
 }
 
 // 使用示例
 const game = new PuzzleGame(
-    '甲秀楼图片URL', // 这里需要替换为实际的图片URL
-    '恭喜你完成了甲秀楼拼图！这座始建于明朝的古建筑见证了贵阳的历史变迁。'
+    'image2.jpeg',
+    '对不起，我知道我做错了。你的感受我都明白，我应该更细心、更体贴。原谅我好吗？我会努力改正，好好珍惜你。'
 ); 

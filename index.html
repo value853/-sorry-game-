@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>甲秀楼拼图游戏</title>
+    <title>对不起，请原谅我</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1>亲爱的，对不起</h1>
+            <p class="subtitle">完成拼图，看看我想对你说的话</p>
+        </div>
         <div class="controls">
             <div class="preview">
-                <img src="甲秀楼图片URL" alt="原图预览" id="preview-image">
+                <img src="image2.jpeg" alt="原图预览" id="preview-image">
             </div>
             <div class="difficulty-select">
                 <button class="difficulty-btn" data-level="9">简单 (3x3)</button>
-                <button class="difficulty-btn" data-level="12">中等 (4x3)</button>
+                <button class="difficulty-btn active" data-level="12">中等 (4x3)</button>
                 <button class="difficulty-btn" data-level="16">困难 (4x4)</button>
             </div>
             <button id="restart-btn">重新开始</button>
@@ -22,13 +26,13 @@
         <div id="puzzle-container"></div>
         <div id="success-message" class="hidden">
             <div class="card">
-                <h2>恭喜你完成拼图！</h2>
-                <p id="custom-message">这里是您想要显示的话语</p>
-                <button id="share-btn">分享给好友</button>
+                <h2>亲爱的❤</h2>
+                <p id="custom-message"></p>
+                <div class="heart-animation">❤</div>
+                <button id="share-btn">分享给Ta</button>
             </div>
         </div>
     </div>
     <script src="script.js"></script>
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 </body>
 </html> 

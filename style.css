@@ -1,7 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft YaHei', sans-serif;
+    background: #fce4ec;
+    min-height: 100vh;
+}
+
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #e91e63;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #ad1457;
+    font-size: 16px;
 }
 
 .controls {
@@ -15,8 +39,9 @@
 
 .preview img {
     max-width: 200px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(233, 30, 99, 0.2);
+    border: 3px solid #fff;
 }
 
 .difficulty-select {
@@ -24,27 +49,38 @@
 }
 
 .difficulty-btn {
-    background: #f0f0f0;
-    border: 1px solid #ddd;
+    background: #fff;
+    border: 2px solid #e91e63;
     padding: 8px 15px;
     margin: 0 5px;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
+    color: #e91e63;
+    transition: all 0.3s ease;
+}
+
+.difficulty-btn:hover {
+    background: #fce4ec;
 }
 
 .difficulty-btn.active {
-    background: #07c160;
+    background: #e91e63;
     color: white;
-    border-color: #07c160;
 }
 
 #restart-btn {
-    background: #ff9800;
+    background: #c2185b;
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#restart-btn:hover {
+    background: #ad1457;
+    transform: scale(1.05);
 }
 
 #puzzle-container {
@@ -53,17 +89,17 @@
     width: 400px;
     height: 300px;
     margin: 0 auto;
-    background: #f5f5f5;
+    background: #fff;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .puzzle-piece {
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid #fce4ec;
     cursor: pointer;
-    background-size: 400px 300px;
     transition: transform 0.2s;
 }
 
@@ -77,17 +113,54 @@
 
 .card {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
     text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+}
+
+.card h2 {
+    color: #e91e63;
+    margin-bottom: 20px;
+}
+
+#custom-message {
+    color: #c2185b;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.heart-animation {
+    color: #e91e63;
+    font-size: 40px;
+    margin: 20px 0;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 #share-btn {
-    background: #07c160;
+    background: #e91e63;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 25px;
     cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#share-btn:hover {
+    background: #c2185b;
+    transform: scale(1.05);
 } 
