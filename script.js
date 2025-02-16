@@ -1,44 +1,52 @@
 let game; // 声明游戏变量
 
+// 等待页面加载完成
 document.addEventListener('DOMContentLoaded', () => {
+    // 获取DOM元素
     const loginBtn = document.getElementById('login-btn');
     const loginContainer = document.getElementById('login-container');
     const gameContainer = document.getElementById('game-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
 
-    // 先不要初始化游戏
-    loginBtn.addEventListener('click', () => {
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
+    // 处理登录
+    function handleLogin() {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
         
         console.log('尝试登录:', username, password);
 
         if (username === 'xingxing' && password === 'stars') {
-            console.log('登录验证通过');
+            console.log('登录成功');
+            // 隐藏登录界面
             loginContainer.style.display = 'none';
-            gameContainer.classList.remove('hidden');
-            
-            // 登录成功后再初始化游戏
-            initGame();
+            // 显示游戏界面
+            gameContainer.style.display = 'block';
+            // 初始化游戏
+            new PuzzleGame(
+                './image2.jpeg',
+                '每当我抬头仰望夜空中闪烁的繁星，思绪总会不由自主地飘回到那个在甲秀楼的雨幕中与你相伴的时光。彼时，我们敞开心扉，谈起了儿时那些纯真而又斑斓的梦想。而后，我们携手漫步在贵阳的大街小巷，那四五个小时的时光，注定让我终身难忘。你是我生命旅程中邂逅的最具灵秀之气、最为美好的女生。我任由自己那发热的头脑支配了行为，可我却忽略了你的感受，我知道，我的所作所为深深地刺痛了你的心。我深知，再多的言语都无法弥补我给你带来的伤害，但我还是想真诚地向你道歉。我错了，真的错了。对不起，原谅我，好吗？'
+            );
         } else {
             console.log('登录失败');
             alert('用户名或密码错误');
         }
-    });
+    }
 
-    document.getElementById('password').addEventListener('keypress', (e) => {
+    // 绑定登录按钮点击事件
+    loginBtn.addEventListener('click', handleLogin);
+
+    // 绑定回车键登录
+    passwordInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            loginBtn.click();
+            handleLogin();
         }
     });
-});
 
-// 游戏初始化函数
-function initGame() {
-    game = new PuzzleGame(
-        './image2.jpeg',
-        '每当我抬头仰望夜空中闪烁的繁星，思绪总会不由自主地飘回到那个在甲秀楼的雨幕中与你相伴的时光。彼时，我们敞开心扉，谈起了儿时那些纯真而又斑斓的梦想。而后，我们携手漫步在贵阳的大街小巷，那四五个小时的时光，注定让我终身难忘。你是我生命旅程中邂逅的最具灵秀之气、最为美好的女生。我任由自己那发热的头脑支配了行为，可我却忽略了你的感受，我知道，我的所作所为深深地刺痛了你的心。我深知，再多的言语都无法弥补我给你带来的伤害，但我还是想真诚地向你道歉。我错了，真的错了。对不起，原谅我，好吗？'
-    );
-}
+    // 初始状态设置
+    gameContainer.style.display = 'none';
+    loginContainer.style.display = 'flex';
+});
 
 class PuzzleGame {
     constructor(imageUrl, message) {
