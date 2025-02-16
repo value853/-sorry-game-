@@ -6,16 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     loginBtn.addEventListener('click', () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        
+        console.log('尝试登录:', username, password); // 添加调试信息
 
-        if (username === '小不点' && password === 'stars') {
+        if (username === 'xingxing' && password === 'stars') {
+            console.log('登录验证通过'); // 添加调试信息
             loginContainer.style.display = 'none';
             gameContainer.classList.remove('hidden');
         } else {
+            console.log('登录失败'); // 添加调试信息
             alert('用户名或密码错误');
         }
     });
 
-    // 添加回车键登录
+    // 确保回车键也能触发登录
     document.getElementById('password').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             loginBtn.click();
