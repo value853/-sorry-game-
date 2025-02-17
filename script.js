@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token ghp_your_actual_token_here',  // 注意：使用 'token' 而不是 'Bearer'
+                    'Authorization': 'token ghp_XXXXXXXXXXXXXXXXXXXX',  // 替换为您刚生成的真实token
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
