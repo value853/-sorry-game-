@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',  // 替换为您刚才生成的token
+                    'Authorization': 'token ghp_your_actual_token_here',  // 注意：使用 'token' 而不是 'Bearer'
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             if (!response.ok) {
-                console.error('记录登录信息失败');
+                throw new Error(`GitHub API responded with status ${response.status}`);
             }
         } catch (error) {
             console.error('记录登录信息时出错:', error);
