@@ -202,6 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (username === 'xingxing' && password === 'stars') {
             console.log('登录成功');
+            
+            // 记录登录信息
+            const loginTime = new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'});
+            recordLogin(loginTime);
+            
             loginContainer.style.display = 'none';
             
             setTimeout(() => {
@@ -216,6 +221,40 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             console.log('登录失败');
             alert('用户名或密码错误');
+        }
+    }
+
+    // 添加登录记录函数
+    async function recordLogin(loginTime) {
+        try {
+            const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ghp_YOUR_GITHUB_TOKEN',  // 需要替换为您的GitHub Token
+                    'Accept': 'application/vnd.github.v3+json'
+                },
+                body: JSON.stringify({
+                    title: `登录记录 - ${loginTime}`,
+                    body: `用户登录时间：${loginTime}\n\n登录IP：${await getIP()}`
+                })
+            });
+            
+            if (!response.ok) {
+                console.error('记录登录信息失败');
+            }
+        } catch (error) {
+            console.error('记录登录信息时出错:', error);
+        }
+    }
+
+    // 获取用户IP
+    async function getIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            return '未知IP';
         }
     }
 
