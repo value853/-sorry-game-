@@ -249,28 +249,23 @@ class PuzzleGame {
             console.log('保存的消息:', this.message);
             
             const successMessage = document.getElementById('success-message');
-            const messageElement = document.getElementById('custom-message');
+            const messageElement = document.getElementById('success-text');
             
             console.log('消息元素:', messageElement);
-            console.log('消息元素当前内容:', messageElement.textContent);
             
-            // 尝试多种方式设置消息
             try {
+                // 设置消息内容
                 messageElement.textContent = this.message;
-                messageElement.innerHTML = this.message;
                 
-                // 强制更新显示
-                setTimeout(() => {
-                    console.log('===== 显示更新后 =====');
-                    console.log('元素可见性:', messageElement.style.display);
-                    console.log('元素内容:', messageElement.textContent);
-                    console.log('元素HTML:', messageElement.innerHTML);
-                    
-                    // 确保元素可见
-                    messageElement.style.display = 'block';
-                    successMessage.style.display = 'block';
-                    successMessage.classList.remove('hidden');
-                }, 100);
+                // 显示成功消息卡片
+                successMessage.classList.remove('hidden');
+                successMessage.style.display = 'block';
+                
+                // 添加动画效果
+                this.playCompletionAnimation();
+                
+                // 调试输出
+                console.log('设置后的内容:', messageElement.textContent);
             } catch (error) {
                 console.error('设置消息时出错:', error);
             }
@@ -403,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
