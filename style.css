@@ -134,13 +134,11 @@ body {
 }
 
 #custom-message {
-    padding: 10px;
-    border: 2px solid #fce4ec;
-    border-radius: 8px;
+    margin: 20px 0;
     font-size: 16px;
-    resize: vertical;
-    min-height: 60px;
-    font-family: inherit;
+    line-height: 1.5;
+    color: #333;
+    white-space: pre-wrap; /* 保留换行符 */
 }
 
 .heart-animation {
@@ -339,4 +337,16 @@ body {
 .result-modal.show {
     display: block;
     animation: popIn 0.5s ease-out;
+}
+
+#success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 } 

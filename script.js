@@ -244,31 +244,36 @@ class PuzzleGame {
         clearInterval(this.timer);
         
         if (success) {
+            console.log('===== 游戏完成阶段 =====');
+            console.log('当前实例:', this);
+            console.log('保存的消息:', this.message);
+            
             const successMessage = document.getElementById('success-message');
             const messageElement = document.getElementById('custom-message');
             
-            // 添加调试信息
-            console.log('完成时的留言:', this.message);
-            console.log('留言元素:', messageElement);
+            console.log('消息元素:', messageElement);
+            console.log('消息元素当前内容:', messageElement.textContent);
             
-            // 确保留言内容正确设置
-            if (this.message) {
+            // 尝试多种方式设置消息
+            try {
                 messageElement.textContent = this.message;
                 messageElement.innerHTML = this.message;
                 
                 // 强制更新显示
                 setTimeout(() => {
+                    console.log('===== 显示更新后 =====');
+                    console.log('元素可见性:', messageElement.style.display);
+                    console.log('元素内容:', messageElement.textContent);
+                    console.log('元素HTML:', messageElement.innerHTML);
+                    
+                    // 确保元素可见
                     messageElement.style.display = 'block';
-                    console.log('设置后的内容:', messageElement.textContent);
-                    console.log('设置后的HTML:', messageElement.innerHTML);
+                    successMessage.style.display = 'block';
+                    successMessage.classList.remove('hidden');
                 }, 100);
+            } catch (error) {
+                console.error('设置消息时出错:', error);
             }
-            
-            // 显示成功消息
-            successMessage.classList.remove('hidden');
-            successMessage.style.display = 'block';
-            
-            this.playCompletionAnimation();
         } else {
             alert('时间到！游戏结束');
             this.resetGame();
@@ -333,6 +338,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = customMessage.value.trim();
         
         if (username === 'xingxing' && password === 'stars') {
+            // 检查消息内容
+            console.log('===== 登录阶段 =====');
+            console.log('原始消息:', customMessage.value);
+            console.log('处理后消息:', message);
+            console.log('消息长度:', message.length);
+            console.log('消息类型:', typeof message);
+
             if (!imageDataUrl) {
                 alert('请选择一张图片');
                 return;
@@ -342,47 +354,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 添加更多调试信息
-            console.log('登录时的留言:', message);
-            console.log('留言长度:', message.length);
-            console.log('留言类型:', typeof message);
-            
-            loginContainer.style.display = 'none';
-            
+            // 创建游戏实例时检查
             setTimeout(() => {
-                gameContainer.style.display = 'block';
-                gameContainer.classList.remove('hidden');
-                
-                // 更新预览图
-                const previewImage = document.getElementById('preview-image');
-                previewImage.src = imageDataUrl;
-                
-                // 获取选中的难度和对应的时间限制
-                const activeBtn = document.querySelector('.difficulty-btn.active');
-                const level = parseInt(activeBtn.dataset.level);
-                let timeLimit;
-                
-                // 根据难度设置时间
-                switch(level) {
-                    case 9:  // 简单
-                        timeLimit = 60;  // 1分钟
-                        break;
-                    case 16: // 困难
-                        timeLimit = 180; // 3分钟
-                        break;
-                    default: // 中等
-                        timeLimit = 120; // 2分钟
-                }
+                // ... 其他代码 ...
                 
                 // 创建游戏实例
                 window.currentGame = new PuzzleGame(
                     imageDataUrl,
-                    message.toString(), // 确保是字符串
+                    message,
                     timeLimit
                 );
                 
-                // 验证游戏实例是否正确保存消息
-                console.log('游戏实例中的消息:', window.currentGame.message);
+                console.log('===== 游戏创建阶段 =====');
+                console.log('游戏实例:', window.currentGame);
+                console.log('保存的消息:', window.currentGame.message);
             }, 100);
         } else {
             alert('用户名或密码错误');
@@ -395,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
@@ -438,4 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 清除预览图
     document.getElementById('preview-image').src = '';
+
+    // 检查关键元素
+    console.log('===== 页面加载检查 =====');
+    console.log('成功消息容器:', document.getElementById('success-message'));
+    console.log('消息元素:', document.getElementById('custom-message'));
 });
