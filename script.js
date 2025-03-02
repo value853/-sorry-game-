@@ -247,13 +247,26 @@ class PuzzleGame {
             const successMessage = document.getElementById('success-message');
             const messageElement = document.getElementById('custom-message');
             
-            // 直接设置留言内容
-            messageElement.innerHTML = this.message;
-            console.log('设置留言:', this.message); // 调试用
+            // 添加调试信息
+            console.log('完成时的留言:', this.message);
+            console.log('留言元素:', messageElement);
+            
+            // 确保留言内容正确设置
+            if (this.message) {
+                messageElement.textContent = this.message;
+                messageElement.innerHTML = this.message;
+                
+                // 强制更新显示
+                setTimeout(() => {
+                    messageElement.style.display = 'block';
+                    console.log('设置后的内容:', messageElement.textContent);
+                    console.log('设置后的HTML:', messageElement.innerHTML);
+                }, 100);
+            }
             
             // 显示成功消息
             successMessage.classList.remove('hidden');
-            successMessage.style.display = 'block'; // 确保显示
+            successMessage.style.display = 'block';
             
             this.playCompletionAnimation();
         } else {
@@ -329,8 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            console.log('登录成功');
-            console.log('留言内容:', message); // 调试用
+            // 添加更多调试信息
+            console.log('登录时的留言:', message);
+            console.log('留言长度:', message.length);
+            console.log('留言类型:', typeof message);
             
             loginContainer.style.display = 'none';
             
@@ -362,9 +377,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 创建游戏实例
                 window.currentGame = new PuzzleGame(
                     imageDataUrl,
-                    message,
+                    message.toString(), // 确保是字符串
                     timeLimit
                 );
+                
+                // 验证游戏实例是否正确保存消息
+                console.log('游戏实例中的消息:', window.currentGame.message);
             }, 100);
         } else {
             alert('用户名或密码错误');
@@ -377,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
