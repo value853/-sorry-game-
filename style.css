@@ -282,4 +282,16 @@ body {
 /* 拼图完成后移除模糊效果 */
 .completed .preview-mask img {
     filter: none;
+}
+
+.login-preview {
+    margin: 10px 0;
+    text-align: center;
+    display: none; /* 默认隐藏 */
+}
+
+.login-preview img {
+    max-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 } 

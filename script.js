@@ -213,7 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('upload-btn').textContent = '已选择图片';
                 document.getElementById('upload-btn').style.background = '#4CAF50';
                 
-                // 更新预览图
+                // 更新登录页预览图
+                const loginPreviewImage = document.getElementById('login-preview-image');
+                loginPreviewImage.src = imageDataUrl;
+                loginPreviewImage.parentElement.style.display = 'block';
+                
+                // 更新游戏页预览图
                 const previewImage = document.getElementById('preview-image');
                 previewImage.src = imageDataUrl;
                 previewImage.style.filter = 'blur(10px)';
