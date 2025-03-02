@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 更新预览图
                 const previewImage = document.getElementById('preview-image');
                 previewImage.src = imageDataUrl;
+                previewImage.style.filter = 'blur(10px)';
             };
             reader.readAsDataURL(file);
         }
@@ -246,8 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameContainer.style.display = 'block';
                 gameContainer.classList.remove('hidden');
                 
-                // 确保预览图使用上传的图片
-                document.getElementById('preview-image').src = imageDataUrl;
+                // 更新预览图和拼图
+                const previewImage = document.getElementById('preview-image');
+                previewImage.src = imageDataUrl;
+                previewImage.style.filter = 'blur(10px)';
                 
                 new PuzzleGame(
                     imageDataUrl,
