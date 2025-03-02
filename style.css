@@ -134,9 +134,13 @@ body {
 }
 
 #custom-message {
-    color: #c2185b;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    padding: 10px;
+    border: 2px solid #fce4ec;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
 }
 
 .heart-animation {
@@ -222,4 +226,30 @@ body {
 
 #login-btn:hover {
     background: #c2185b;
+}
+
+#upload-btn {
+    background: #e91e63;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#upload-btn:hover {
+    background: #c2185b;
+}
+
+.preview-image-container {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.preview-image-container img {
+    max-width: 200px;
+    border-radius: 8px;
+    display: none;
 } 

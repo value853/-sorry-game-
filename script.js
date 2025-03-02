@@ -195,15 +195,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameContainer = document.getElementById('game-container');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
+    const customImage = document.getElementById('custom-image');
+    const customMessage = document.getElementById('custom-message');
+    let imageDataUrl = null;
+
+    // 添加图片预览功能
+    customImage.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imageDataUrl = e.target.result;
+                document.getElementById('upload-btn').textContent = '已选择图片';
+                document.getElementById('upload-btn').style.background = '#4CAF50';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     function handleLogin() {
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
+        const message = customMessage.value.trim();
         
         if (username === 'xingxing' && password === 'stars') {
+            if (!imageDataUrl) {
+                alert('请选择一张图片');
+                return;
+            }
+            if (!message) {
+                alert('请输入想说的话');
+                return;
+            }
+
             console.log('登录成功');
-            
-            // 记录登录信息
             const loginTime = new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'});
             recordLogin(loginTime);
             
@@ -214,8 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameContainer.classList.remove('hidden');
                 
                 new PuzzleGame(
-                    'https://value853.github.io/-sorry-game-/image2.jpeg',
-                    '每当我抬头仰望夜空中闪烁的繁星，思绪总会不由自主地飘回到那个在甲秀楼的雨幕中与你相伴的时光。彼时，我们敞开心扉，谈起了儿时那些纯真而又斑斓的梦想。而后，我们携手漫步在贵阳的大街小巷，那四五个小时的时光，注定让我终身难忘。你是我生命旅程中邂逅的最具灵秀之气、最为美好的女生。我任由自己那发热的头脑支配了行为，可我却忽略了你的感受，我知道，我的所作所为深深地刺痛了你的心。我深知，再多的言语都无法弥补我给你带来的伤害，但我还是想真诚地向你道歉。我错了，真的错了。对不起，原谅我，好吗？'
+                    imageDataUrl,  // 使用用户上传的图片
+                    message  // 使用用户输入的文字
                 );
             }, 100);
         } else {
@@ -230,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',  
+                    'Authorization': 'token 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',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
