@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token YOUR_NEW_TOKEN',
+                    'Authorization': 'token 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',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
