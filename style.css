@@ -252,4 +252,34 @@ body {
     max-width: 200px;
     border-radius: 8px;
     display: none;
+}
+
+/* 添加预览图遮罩样式 */
+.preview-mask {
+    position: relative;
+    cursor: pointer;
+}
+
+.preview-mask img {
+    filter: blur(10px); /* 模糊效果 */
+    transition: filter 0.3s;
+}
+
+.mask-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e91e63;
+    font-size: 14px;
+    text-align: center;
+    background: rgba(255,255,255,0.8);
+    padding: 8px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* 拼图完成后移除模糊效果 */
+.completed .preview-mask img {
+    filter: none;
 } 

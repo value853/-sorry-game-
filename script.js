@@ -107,6 +107,7 @@ class PuzzleGame {
         const x = (piece.id % cols) * pieceWidth;
         const y = Math.floor(piece.id / cols) * pieceHeight;
         
+        element.style.filter = 'blur(2px)';
         element.style.backgroundImage = `url(${this.imageUrl})`;
         element.style.backgroundSize = `${this.displayWidth}px ${this.displayHeight}px`;
         element.style.backgroundPosition = `-${x}px -${y}px`;
@@ -176,6 +177,8 @@ class PuzzleGame {
         );
 
         if (isComplete) {
+            document.querySelector('.preview-mask').classList.add('completed');
+            
             document.getElementById('success-message').classList.remove('hidden');
             document.getElementById('custom-message').textContent = this.message;
             this.playCompletionAnimation();
@@ -199,15 +202,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const customMessage = document.getElementById('custom-message');
     let imageDataUrl = null;
 
-    // 添加图片预览功能
+    // 在图片预览功能中添加预览图更新
     customImage.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 imageDataUrl = e.target.result;
+                // 更新上传按钮状态
                 document.getElementById('upload-btn').textContent = '已选择图片';
                 document.getElementById('upload-btn').style.background = '#4CAF50';
+                
+                // 更新预览图
+                const previewImage = document.getElementById('preview-image');
+                previewImage.src = imageDataUrl;
             };
             reader.readAsDataURL(file);
         }
@@ -238,9 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameContainer.style.display = 'block';
                 gameContainer.classList.remove('hidden');
                 
+                // 确保预览图使用上传的图片
+                document.getElementById('preview-image').src = imageDataUrl;
+                
                 new PuzzleGame(
-                    imageDataUrl,  // 使用用户上传的图片
-                    message  // 使用用户输入的文字
+                    imageDataUrl,
+                    message
                 );
             }, 100);
         } else {
