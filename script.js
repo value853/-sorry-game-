@@ -2,7 +2,7 @@ class PuzzleGame {
     constructor(imageUrl, message, timeLimit) {
         this.imageUrl = imageUrl;
         this.message = message;
-        this.timeLimit = timeLimit || 120; // 默认2分钟
+        this.timeLimit = parseInt(timeLimit) || 120; // 确保是数字
         this.timer = null;
         this.pieces = [];
         this.currentLevel = 12;
@@ -202,13 +202,14 @@ class PuzzleGame {
         let timeLeft = this.timeLimit;
         const countdownEl = document.getElementById('countdown');
         
-        // 立即更新一次显示
+        // 立即显示初始时间
         this.updateTimerDisplay(timeLeft, countdownEl);
         
         this.timer = setInterval(() => {
             timeLeft--;
-            this.updateTimerDisplay(timeLeft, countdownEl);
-            
+            if (timeLeft >= 0) {
+                this.updateTimerDisplay(timeLeft, countdownEl);
+            }
             if (timeLeft <= 0) {
                 this.gameOver(false);
             }
@@ -216,6 +217,10 @@ class PuzzleGame {
     }
 
     updateTimerDisplay(timeLeft, element) {
+        if (typeof timeLeft !== 'number') {
+            console.error('Invalid timeLeft value:', timeLeft);
+            return;
+        }
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         element.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -284,10 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginPreviewImage.src = imageDataUrl;
                 loginPreviewImage.parentElement.style.display = 'block';
                 
-                // 更新游戏页预览图
+                // 更新游戏页预览图（移除模糊效果）
                 const previewImage = document.getElementById('preview-image');
                 previewImage.src = imageDataUrl;
-                previewImage.style.filter = 'blur(10px)';
             };
             reader.readAsDataURL(file);
         }
@@ -340,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
