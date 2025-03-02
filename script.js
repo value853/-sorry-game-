@@ -354,9 +354,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 创建游戏实例时检查
+            loginContainer.style.display = 'none';
+            
             setTimeout(() => {
-                // ... 其他代码 ...
+                gameContainer.style.display = 'block';
+                gameContainer.classList.remove('hidden');
+                
+                // 更新预览图
+                const previewImage = document.getElementById('preview-image');
+                previewImage.src = imageDataUrl;
+                
+                // 获取选中的难度和对应的时间限制
+                const activeBtn = document.querySelector('.difficulty-btn.active');
+                const level = parseInt(activeBtn.dataset.level);
+                let timeLimit;
+                
+                // 根据难度设置时间
+                switch(level) {
+                    case 9:  // 简单
+                        timeLimit = 60;  // 1分钟
+                        break;
+                    case 16: // 困难
+                        timeLimit = 180; // 3分钟
+                        break;
+                    default: // 中等
+                        timeLimit = 120; // 2分钟
+                }
                 
                 // 创建游戏实例
                 window.currentGame = new PuzzleGame(
@@ -380,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
