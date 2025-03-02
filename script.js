@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token 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',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
