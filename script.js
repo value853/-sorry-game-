@@ -2,7 +2,7 @@ class PuzzleGame {
     constructor(imageUrl, message, timeLimit) {
         this.imageUrl = imageUrl;
         this.message = message;
-        this.timeLimit = parseInt(timeLimit) || 120; // 确保是数字
+        this.timeLimit = parseInt(timeLimit);
         this.timer = null;
         this.pieces = [];
         this.currentLevel = 12;
@@ -44,6 +44,7 @@ class PuzzleGame {
         difficultyBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 this.currentLevel = parseInt(btn.dataset.level);
+                this.timeLimit = parseInt(btn.dataset.time); // 更新时间限制
                 difficultyBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 this.resetGame();
@@ -234,10 +235,15 @@ class PuzzleGame {
             const successMessage = document.getElementById('success-message');
             const customMessage = document.getElementById('custom-message');
             
-            customMessage.textContent = this.message;
-            successMessage.classList.remove('hidden');
+            // 确保留言内容正确显示
+            if (this.message && this.message.trim() !== '') {
+                customMessage.textContent = this.message;
+                console.log('显示留言:', this.message); // 调试用
+            } else {
+                console.error('留言内容为空');
+            }
             
-            // 添加动画效果
+            successMessage.classList.remove('hidden');
             this.playCompletionAnimation();
         } else {
             alert('时间到！游戏结束');
@@ -313,13 +319,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log('登录成功');
+            console.log('留言内容:', message); // 调试用
+            
             loginContainer.style.display = 'none';
             
             setTimeout(() => {
                 gameContainer.style.display = 'block';
                 gameContainer.classList.remove('hidden');
                 
-                // 更新预览图（移除模糊效果）
+                // 更新预览图
                 const previewImage = document.getElementById('preview-image');
                 previewImage.src = imageDataUrl;
                 
@@ -327,7 +335,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const activeBtn = document.querySelector('.difficulty-btn.active');
                 const timeLimit = parseInt(activeBtn.dataset.time);
                 
-                new PuzzleGame(
+                // 创建游戏实例并保存引用
+                window.currentGame = new PuzzleGame(
                     imageDataUrl,
                     message,
                     timeLimit
@@ -344,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
