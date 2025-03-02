@@ -43,8 +43,21 @@ class PuzzleGame {
         const difficultyBtns = document.querySelectorAll('.difficulty-btn');
         difficultyBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                this.currentLevel = parseInt(btn.dataset.level);
-                this.timeLimit = parseInt(btn.dataset.time); // 更新时间限制
+                const level = parseInt(btn.dataset.level);
+                this.currentLevel = level;
+                
+                // 根据难度设置时间
+                switch(level) {
+                    case 9:  // 简单
+                        this.timeLimit = 60;  // 1分钟
+                        break;
+                    case 16: // 困难
+                        this.timeLimit = 180; // 3分钟
+                        break;
+                    default: // 中等
+                        this.timeLimit = 120; // 2分钟
+                }
+                
                 difficultyBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 this.resetGame();
@@ -231,19 +244,17 @@ class PuzzleGame {
         clearInterval(this.timer);
         
         if (success) {
-            // 显示成功消息和留言
             const successMessage = document.getElementById('success-message');
-            const customMessage = document.getElementById('custom-message');
+            const messageElement = document.getElementById('custom-message');
             
-            // 确保留言内容正确显示
-            if (this.message && this.message.trim() !== '') {
-                customMessage.textContent = this.message;
-                console.log('显示留言:', this.message); // 调试用
-            } else {
-                console.error('留言内容为空');
-            }
+            // 直接设置留言内容
+            messageElement.innerHTML = this.message;
+            console.log('设置留言:', this.message); // 调试用
             
+            // 显示成功消息
             successMessage.classList.remove('hidden');
+            successMessage.style.display = 'block'; // 确保显示
+            
             this.playCompletionAnimation();
         } else {
             alert('时间到！游戏结束');
@@ -333,9 +344,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // 获取选中的难度和对应的时间限制
                 const activeBtn = document.querySelector('.difficulty-btn.active');
-                const timeLimit = parseInt(activeBtn.dataset.time);
+                const level = parseInt(activeBtn.dataset.level);
+                let timeLimit;
                 
-                // 创建游戏实例并保存引用
+                // 根据难度设置时间
+                switch(level) {
+                    case 9:  // 简单
+                        timeLimit = 60;  // 1分钟
+                        break;
+                    case 16: // 困难
+                        timeLimit = 180; // 3分钟
+                        break;
+                    default: // 中等
+                        timeLimit = 120; // 2分钟
+                }
+                
+                // 创建游戏实例
                 window.currentGame = new PuzzleGame(
                     imageDataUrl,
                     message,
@@ -353,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': '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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
