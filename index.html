@@ -34,16 +34,24 @@
             <p class="subtitle">完成拼图，看看我想对你说的话</p>
         </div>
         <div class="controls">
+            <div class="timer">
+                剩余时间：<span id="countdown">00:00</span>
+            </div>
             <div class="preview">
-                <div class="preview-mask">
-                    <img id="preview-image" alt="原图预览">
-                    <div class="mask-text">请先选择图片</div>
-                </div>
+                <img id="preview-image" alt="原图预览">
+            </div>
+            <div class="music-player">
+                <audio id="bgMusic" loop>
+                    <source src="https://example.com/my-heart-will-go-on.mp3" type="audio/mp3">
+                </audio>
+                <button id="musicToggle" class="music-btn">
+                    <span class="music-icon">🎵</span>
+                </button>
             </div>
             <div class="difficulty-select">
-                <button class="difficulty-btn" data-level="9">简单 (3x3)</button>
-                <button class="difficulty-btn active" data-level="12">中等 (4x3)</button>
-                <button class="difficulty-btn" data-level="16">困难 (4x4)</button>
+                <button class="difficulty-btn" data-level="9" data-time="180">简单 (3x3) - 3分钟</button>
+                <button class="difficulty-btn active" data-level="12" data-time="300">中等 (4x3) - 5分钟</button>
+                <button class="difficulty-btn" data-level="16" data-time="480">困难 (4x4) - 8分钟</button>
             </div>
             <button id="restart-btn">重新开始</button>
         </div>

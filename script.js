@@ -1,12 +1,19 @@
 class PuzzleGame {
-    constructor(imageUrl, message) {
+    constructor(imageUrl, message, timeLimit) {
         this.imageUrl = imageUrl;
         this.message = message;
+        this.timeLimit = timeLimit;
+        this.timer = null;
         this.pieces = [];
         this.currentLevel = 12;
+        
+        // 初始化音乐
+        this.initMusic();
+        
         this.loadImage().then(() => {
             this.init();
             this.setupControls();
+            this.startTimer();
         });
     }
 
@@ -107,7 +114,6 @@ class PuzzleGame {
         const x = (piece.id % cols) * pieceWidth;
         const y = Math.floor(piece.id / cols) * pieceHeight;
         
-        element.style.filter = 'blur(2px)';
         element.style.backgroundImage = `url(${this.imageUrl})`;
         element.style.backgroundSize = `${this.displayWidth}px ${this.displayHeight}px`;
         element.style.backgroundPosition = `-${x}px -${y}px`;
@@ -170,6 +176,50 @@ class PuzzleGame {
         });
     }
 
+    initMusic() {
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggle');
+        
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicBtn.classList.add('playing');
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+            }
+        });
+    }
+
+    startTimer() {
+        let timeLeft = this.timeLimit;
+        const countdownEl = document.getElementById('countdown');
+        
+        this.timer = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                this.gameOver(false);
+            }
+        }, 1000);
+    }
+
+    gameOver(success) {
+        clearInterval(this.timer);
+        
+        if (success) {
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('custom-message').textContent = this.message;
+            this.playCompletionAnimation();
+        } else {
+            alert('时间到！游戏结束');
+            this.resetGame();
+        }
+    }
+
     checkCompletion() {
         const pieces = document.querySelectorAll('.puzzle-piece');
         const isComplete = Array.from(pieces).every((piece, index) => 
@@ -177,11 +227,7 @@ class PuzzleGame {
         );
 
         if (isComplete) {
-            document.querySelector('.preview-mask').classList.add('completed');
-            
-            document.getElementById('success-message').classList.remove('hidden');
-            document.getElementById('custom-message').textContent = this.message;
-            this.playCompletionAnimation();
+            this.gameOver(true);
         }
     }
 
@@ -274,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
@@ -310,7 +356,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 初始状态设置
     gameContainer.style.display = 'none';
     gameContainer.classList.add('hidden');
     loginContainer.style.display = 'flex';
+    
+    // 清除预览图
+    document.getElementById('preview-image').src = '';
 });
