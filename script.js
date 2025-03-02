@@ -2,7 +2,7 @@ class PuzzleGame {
     constructor(imageUrl, message, timeLimit) {
         this.imageUrl = imageUrl;
         this.message = message;
-        this.timeLimit = timeLimit;
+        this.timeLimit = timeLimit || 120; // 默认2分钟
         this.timer = null;
         this.pieces = [];
         this.currentLevel = 12;
@@ -56,11 +56,18 @@ class PuzzleGame {
     }
 
     resetGame() {
+        clearInterval(this.timer);
         const container = document.getElementById('puzzle-container');
         container.innerHTML = '';
         document.getElementById('success-message').classList.add('hidden');
+        
+        // 重置计时器显示
+        const countdownEl = document.getElementById('countdown');
+        this.updateTimerDisplay(this.timeLimit, countdownEl);
+        
         this.updateGridLayout();
         this.init();
+        this.startTimer();
     }
 
     updateGridLayout() {
@@ -195,11 +202,12 @@ class PuzzleGame {
         let timeLeft = this.timeLimit;
         const countdownEl = document.getElementById('countdown');
         
+        // 立即更新一次显示
+        this.updateTimerDisplay(timeLeft, countdownEl);
+        
         this.timer = setInterval(() => {
             timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            this.updateTimerDisplay(timeLeft, countdownEl);
             
             if (timeLeft <= 0) {
                 this.gameOver(false);
@@ -207,12 +215,24 @@ class PuzzleGame {
         }, 1000);
     }
 
+    updateTimerDisplay(timeLeft, element) {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        element.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
     gameOver(success) {
         clearInterval(this.timer);
         
         if (success) {
-            document.getElementById('success-message').classList.remove('hidden');
-            document.getElementById('custom-message').textContent = this.message;
+            // 显示成功消息和留言
+            const successMessage = document.getElementById('success-message');
+            const customMessage = document.getElementById('custom-message');
+            
+            customMessage.textContent = this.message;
+            successMessage.classList.remove('hidden');
+            
+            // 添加动画效果
             this.playCompletionAnimation();
         } else {
             alert('时间到！游戏结束');
@@ -289,27 +309,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log('登录成功');
-            const loginTime = new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'});
-            recordLogin(loginTime);
-            
             loginContainer.style.display = 'none';
             
             setTimeout(() => {
                 gameContainer.style.display = 'block';
                 gameContainer.classList.remove('hidden');
                 
-                // 更新预览图和拼图
+                // 更新预览图（移除模糊效果）
                 const previewImage = document.getElementById('preview-image');
                 previewImage.src = imageDataUrl;
-                previewImage.style.filter = 'blur(10px)';
+                
+                // 获取选中的难度和对应的时间限制
+                const activeBtn = document.querySelector('.difficulty-btn.active');
+                const timeLimit = parseInt(activeBtn.dataset.time);
                 
                 new PuzzleGame(
                     imageDataUrl,
-                    message
+                    message,
+                    timeLimit
                 );
             }, 100);
         } else {
-            console.log('登录失败');
             alert('用户名或密码错误');
         }
     }
@@ -320,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.github.com/repos/value853/-sorry-game-/issues', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'token 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',
+                    'Authorization': 'token YOUR_NEW_TOKEN',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
